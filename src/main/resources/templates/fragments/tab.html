@@ -2,6 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
 
+<!--ColHeader Fragment-->
 <th scope="col" th:fragment="colHeader(itemSortProperty, libelle)">
     <div th:if="${#strings.equals(param.sortProperty,itemSortProperty)}"
          th:switch="${param.sortDirection.toString()}">

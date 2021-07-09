@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
+<!--Fragment pagination-->
 <div th:fragment="pagination" class="row">
     <div class="col-lg-5">
         <form action="/" method="get" class="form-inline">
@@ -35,7 +36,6 @@
                     </a>
                 </li>
                 <li class="page-item">
-                    <!--                                <a href="#" class="page-link">Page <span th:text="${pageNumber}"></span></a>-->
                     <form action="/" method="get">
                         <select name="page" id="pagePicker" class="custom-select"
                                 onchange="javascript:this.form.submit()">
@@ -64,7 +64,7 @@
     </div>
     <div class="col-lg-5 text-right mt-2">
         <p>
-            Affichage des communes <span th:text="${start}">1</span> à <span th:text="${end}">10</span> sur
+            Affichage des communes <span th:text="${start}"></span> à <span th:text="${end}"></span> sur
             un total de <span th:text="${nbCommunes}"></span>
         </p>
     </div>

@@ -37,19 +37,19 @@
 - [x] Pour le GET /communes/CODEINSEE, lever une `EntityNotFoundException` lorsque le code INSEE n'existe pas en base et la gérer dans votre `GlobalExceptionHandler` avec une 404
 - [x] Idem pour le GET /communes/CODEINSEE/delete
 - [x] Dans l'affichage de la liste des communes, contrôler la valeur des paramètres `page`, `size`, `sortProperty` et `sortDirection`, lever une `IllegalArgumentException` lorqu'un des paramètres est incorrect et la gérer dans votre `GlobalExceptionHandler` avec une 400
-- [ ] Bonus : Gérer d'autres erreurs à travers votre application
+- [x] Bonus : Gérer d'autres erreurs à travers votre application
 
 # Flash attributes
 - [x] Afficher un message de succès lors de la sauvegarde d'une commune
 - [x] Afficher un message de succès suite à la suppression d'une commune
 - [x] Afficher un message de succès suite à la création d'une commune
-- [ ] Afficher un message d'erreur si on souhaite afficher les villes dans un périmètre supérieur à 20 km (cela n'utilise pas forcément les flash attributes)
+- [x] Afficher un message d'erreur si on souhaite afficher les villes dans un périmètre supérieur à 20 km (cela n'utilise pas forcément les flash attributes)
 
 
 # Validation
 - [x] Mettre en place la validation avec les règles adéquates sur les champs code Insee (obligatoire, 5 chiffres et le deuxième caractère peut être A ou B), code postal (obligatoire, 5 chiffres), nom (obligatoire, taille max 50, regex `^[A-Za-z-' ]+[0-9]{0,2}$`, latitude et longitude (facultatives, mais lorsqu'elles sont renseignées, elles doivent être valides)
-- [ ] Faire en sorte que les fomulaires affichent les messages d'erreurs pour chaque champs en cas d'erreur de validation (classe CSS is-valid ou is-invalid, + div de la classe invalid-feedback pour l'affichage des erreurs)
-- [ ] Bonus : Gérer correctement le formulaire de création (pas de coche verte ou de warning rouge à la création mais en cas d'erreur de création on réaffiche bien le formulaire avec les warnings pour les champs à problèmes).
+- [x] Faire en sorte que les fomulaires affichent les messages d'erreurs pour chaque champs en cas d'erreur de validation (classe CSS is-valid ou is-invalid, + div de la classe invalid-feedback pour l'affichage des erreurs)
+- [x] Bonus : Gérer correctement le formulaire de création (pas de coche verte ou de warning rouge à la création mais en cas d'erreur de création on réaffiche bien le formulaire avec les warnings pour les champs à problèmes).
 
 # Spring Security
 - [x] Créer une entité User :
@@ -67,12 +67,12 @@
 - [x] Mettre en place un ManyToMany entre User et Role
 - [x] Mettre en place le paramétrage de sécurité avec authentification par formulaire
 - [x] Mettre en place la page de connexion
-- [ ] Restreindre l'accès aux pages suivantes :
+- [x] Restreindre l'accès aux pages suivantes :
     - Liste des communes et recherche accessible à tous
     - Détails des communes accessible uniquement aux utilisateurs connectés
     - Création, Modification et suppression d'une commune accessible uniquement aux utilisateurs ADMIN
-- [ ] Affiner l'affichage au niveau du template pour :
+- [x] Affiner l'affichage au niveau du template pour :
     - Ne pas afficher le bouton Créer une nouvelle commune pour les utilisateurs non admin
     - Ne pas afficher le bouton Supprimer et le bouton Enregistrer la commune pour les utilisateurs non admin
     - Afficher un lien Se connecter dans le menu lorsqu'on n'est pas connecté, un bouton Se déconnecter lorsqu'on est connecté
-- [ ] Gérer les messages de connexion réussie et de connexion échouée
+- [x] Gérer les messages de connexion réussie et de connexion échouée

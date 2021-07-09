@@ -33,9 +33,15 @@ public class IndexController {
                                 @RequestParam(defaultValue = "codeInsee") String sortProperty,
                                 @RequestParam(defaultValue = "ASC") String sortDirection,
                                 @RequestParam(required = false, defaultValue = "") String search,
+                                @RequestParam(required = false) Boolean successfulConnection,
                                 final ModelMap model) {
         long nbCommunes = communeRepository.count();
         model.put("nbCommunes", nbCommunes);
+
+        if (Boolean.TRUE.equals(successfulConnection)) {
+            model.addAttribute("type", "success");
+            model.addAttribute("message", "La connection a réussi");
+        }
 
         //On vérifie la validité des arguments
         checkParametersValidity(nbCommunes, size, page, sortDirection, sortProperty);
@@ -69,8 +75,8 @@ public class IndexController {
         model.put("sortProperty", sortProperty);
         model.put("sortDirection", sortDirection);
 
+        model.put("fragment", "listeCommunes");
         model.put("template", "listeCommunes");
-        model.put("fragment", "listCom");
         return "main";
     }
 

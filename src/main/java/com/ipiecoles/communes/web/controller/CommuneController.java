@@ -29,6 +29,7 @@ public class CommuneController {
     @Autowired
     private CommuneRepository communeRepository;
 
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     @GetMapping("/communes/{codeInsee}")
     public String getCommune(
             @PathVariable String codeInsee,
@@ -40,7 +41,14 @@ public class CommuneController {
         //Récupérer les communes proches de celle-ci
         model.put("commune", commune);
         model.put("perimetre", perimetre);
-        model.put("communesProches", this.findCommunesProches(commune, perimetre));
+
+        //Si le périmètre dépasse 20km
+        if (perimetre > 20) {
+            model.addAttribute("type", "danger");
+            model.addAttribute("message", "Le périmètre de recherche ne peut pas dépasser les 20 km");
+        } else {
+            model.put("communesProches", this.findCommunesProches(commune, perimetre));
+        }
         model.put("newCommune", false);
 
         model.put("templateDetail", "detail");
@@ -49,18 +57,26 @@ public class CommuneController {
         return "detail";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/communes", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveNewCommune(final ModelMap model,
-                                 Commune commune,
+                                 @Valid Commune commune,
+                                 final BindingResult result,
                                  RedirectAttributes attributes) {
-        //Ajouter un certain nombre de contrôles...
-        commune = communeRepository.save(commune);
-        model.put("commune", commune);
-        attributes.addFlashAttribute("type", "success");
-        attributes.addFlashAttribute("message", "Enregistrement de la commune " + commune.getNom() + " effectuée !");
-        return "redirect:/communes/" + commune.getCodeInsee();
+        if (!result.hasErrors()) {
+            commune = communeRepository.save(commune);
+            model.put("commune", commune);
+            attributes.addFlashAttribute("type", "success");
+            attributes.addFlashAttribute("message", "Enregistrement de la commune " + commune.getNom() + " effectuée !");
+            return "redirect:/communes/" + commune.getCodeInsee();
+        } else {
+            model.addAttribute("type", "danger");
+            model.addAttribute("message", "Erreur lors de la sauvegarde de la commune");
+            return "detail";
+        }
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(value = "/communes/{codeInsee}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String saveExistingCommune(
             final ModelMap model,
@@ -88,6 +104,7 @@ public class CommuneController {
         return "detail";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/communes/new")
     public String newCommune(
             final ModelMap model) {
@@ -96,6 +113,7 @@ public class CommuneController {
         return "detail";
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/communes/{codeInsee}/delete")
     public String deleteCommune(@PathVariable String codeInsee,
                                 RedirectAttributes attributes) {

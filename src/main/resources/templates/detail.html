@@ -6,7 +6,6 @@
 
 <div th:replace="fragments/header :: navbar"></div>
 
-
 <div>
     <div class="container" th:fragment="fragDetail">
         <div th:if="${type}" th:class="|mt-1 alert alert-dismissible fade show alert-${type}|" role="alert">
@@ -15,9 +14,8 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <h2 th:unless="${newCommune}">Détail de la commune [[${commune.codeInsee}]], [[${commune.nom}]]</h2>
-        <!--<h2 th:unless="${commune.codeInsee == null}">Détail de la commune [[${commune.codeInsee}]], Andert Et Condon</h2>-->
         <h2 th:if="${newCommune}">Création d'une nouvelle commune</h2>
+        <h2 th:unless="${newCommune}">Détail de la commune [[${commune.codeInsee}]], [[${commune.nom}]]</h2>
 
         <div class="row">
             <div class="col-sm-12 col-lg-6">
@@ -29,8 +27,8 @@
                         <div>
                             <div class="form-group">
                                 <label for="codeInsee">Code INSEE</label>
-
-                                <input type="text" th:value="${commune.codeInsee}" class="form-control is-valid"
+                                <input type="text" th:value="${commune.codeInsee}"
+                                       th:class="|form-control ${commune.codeInsee != null ? (#fields.hasErrors('commune.codeInsee') ? 'is-invalid' : 'is-valid') : ''}|"
                                        name="codeInsee"
                                        id="codeInsee">
                                 <div class="invalid-feedback">
@@ -46,8 +44,9 @@
                                 <label for="nom">Nom</label>
 
                                 <input type="text" th:value="${commune.nom}"
-                                       th:class="|form-control ${#fields.hasErrors('commune.nom') ? 'is-invalid' : 'is-valid'}|"
-                                       name="nom">
+                                       th:class="|form-control ${commune.nom != null ? (#fields.hasErrors('commune.nom') ? 'is-invalid' : 'is-valid') : ''}|"
+                                       name="nom"
+                                       id="nom">
                                 <div class="invalid-feedback">
                                     <ul>
                                         <li th:errors="${commune.nom}"></li>
@@ -59,7 +58,8 @@
                             <div class="form-group">
                                 <label for="codePostal">Code Postal</label>
 
-                                <input type="text" th:value="${commune.codePostal}" class="form-control is-valid"
+                                <input type="text" th:value="${commune.codePostal}"
+                                       th:class="|form-control ${commune.codePostal != null ? (#fields.hasErrors('commune.codePostal') ? 'is-invalid' : 'is-valid') : ''}|"
                                        name="codePostal"
                                        id="codePostal">
                                 <div class="invalid-feedback">
@@ -73,7 +73,8 @@
                             <div class="form-group">
                                 <label for="latitude">Latitude</label>
 
-                                <input type="text" th:value="${commune.latitude}" class="form-control is-valid"
+                                <input type="text" th:value="${commune.latitude}"
+                                       th:class="|form-control ${commune.latitude != null ? (#fields.hasErrors('commune.latitude') ? 'is-invalid' : 'is-valid') : ''}|"
                                        name="latitude"
                                        id="latitude">
                                 <div class="invalid-feedback">
@@ -87,7 +88,8 @@
                             <div class="form-group">
                                 <label for="longitude">Longitude</label>
 
-                                <input type="text" th:value="${commune.longitude}" class="form-control is-valid"
+                                <input type="text" th:value="${commune.longitude}"
+                                       th:class="|form-control ${commune.longitude != null ? (#fields.hasErrors('commune.longitude') ? 'is-invalid' : 'is-valid') : ''}|"
                                        name="longitude"
                                        id="longitude">
                                 <div class="invalid-feedback">
@@ -98,7 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-12 mt-2 text-center">
+                    <div class="col-sm-12 mt-2 text-center" sec:authorize="hasRole('ROLE_ADMIN')">
                         <div class="col-sm-12 mt-2 text-center">
                             <input form="saveForm" class="btn btn-primary" type="submit" value="Enregistrer"/>
                             <span th:unless="${newCommune}">
@@ -109,7 +111,11 @@
                     </div>
                 </form>
             </div>
-            <div class="col-lg-6" th:unless="${newCommune}">
+            <!--
+                        <div class="col-lg-6" th:if="${commune.newCommune} == false && ${commune.longitude} != null && ${commune.latitude} != null">
+            -->
+            <div class="col-lg-6"
+                 th:unless="${param.newCommune} or ${commune.longitude} == null or ${commune.latitude} == null">
                 <iframe width="650" height="450" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                         th:src="|https://www.openstreetmap.org/export/embed.html?bbox=${commune.longitude-0.10}%2C${commune.latitude-0.5}%2C${commune.longitude+0.10}%2C${commune.latitude+0.5}&layer=mapnik&marker=${commune.latitude}%2C${commune.longitude}|"
                         style="border: 1px solid black"></iframe>

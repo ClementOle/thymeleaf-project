@@ -27,7 +27,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder());
-
     }
 
     @Bean
@@ -40,11 +39,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 //La page d'accueil / ...
-                .antMatchers("/", "/register")
+                .antMatchers("/", "/register", "/logout")
                 //... est accessible à tous
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/communes/*")
-                .hasRole("ADMIN")
                 //Toutes les autres requêtes...
                 .anyRequest()
                 //... demandent à être authentifié

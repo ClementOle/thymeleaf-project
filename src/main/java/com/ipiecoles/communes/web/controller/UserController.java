@@ -12,10 +12,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -34,7 +34,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(required = false) Boolean error,
+                        ModelMap model) {
+        if (Boolean.TRUE.equals(error)) {
+            model.addAttribute("type", "danger");
+            model.addAttribute("message", "Erreur lors de la connexion.");
+
+        }
         return "login";
     }
 

@@ -3,10 +3,7 @@ package com.ipiecoles.communes.web.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Entity
 public class Commune {
@@ -19,24 +16,27 @@ public class Commune {
 
     @Id
     @Column(length = 5)
-    @Pattern(regexp=REGEX_CODE_INSEE,message="Le code INSEE doit contenir 5 chiffres (Le deuxième caractère peut être A ou B pour les communes de Corse)")
+    @Pattern(regexp = REGEX_CODE_INSEE, message = "Le code INSEE doit contenir 5 chiffres (Le deuxième caractère peut être A ou B pour les communes de Corse)")
     @NotBlank
     private String codeInsee;
 
-    @Pattern(regexp=REGEX_NOM_COMMUNE,message="Le nom de la commune ne peut contenir que des lettres, des tirets, des espaces et éventuellement le numéro d\'arrondissement")
+    @Pattern(regexp = REGEX_NOM_COMMUNE, message = "Le nom de la commune ne peut contenir que des lettres, des tirets, des espaces et éventuellement le numéro d\'arrondissement")
     @NotBlank
     private String nom;
 
     @Column(length = 5)
-    @Pattern(regexp=REGEX_CODE_POSTAL,message="Le code postal doit contenir 5 chiffres")
+    @Pattern(regexp = REGEX_CODE_POSTAL, message = "Le code postal doit contenir 5 chiffres")
+    @NotBlank
     private String codePostal;
 
-    @Min(value=-28, message="La latitude ne peut être inférieure à -28")
-    @Max(value=67, message="La latitude ne peut être supérieure à 67")
+    @Min(value = -28, message = "La latitude ne peut être inférieure à -28")
+    @Max(value = 67, message = "La latitude ne peut être supérieure à 67")
+    @NotNull
     private Double latitude;
 
-    @Min(value=-179, message="La longitude ne peut être inférieure à -179")
-    @Max(value=168, message="La longitude ne peut être supérieure à 168")
+    @Min(value = -179, message = "La longitude ne peut être inférieure à -179")
+    @Max(value = 168, message = "La longitude ne peut être supérieure à 168")
+    @NotNull
     private Double longitude;
 
     public Commune() {
@@ -90,7 +90,7 @@ public class Commune {
         this.longitude = longitude;
     }
 
-    public Long getDistance(Double latitude, Double longitude){
+    public Long getDistance(Double latitude, Double longitude) {
         Double lat1 = Math.toRadians(latitude);
         Double lng1 = Math.toRadians(longitude);
         Double lat2 = Math.toRadians(this.latitude);
@@ -99,9 +99,9 @@ public class Commune {
         double dlon = lng2 - lng1;
         double dlat = lat2 - lat1;
 
-        double a = Math.pow((Math.sin(dlat/2)),2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon/2),2);
+        double a = Math.pow((Math.sin(dlat / 2)), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2), 2);
 
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return Math.round(6371.009 * c);
     }
