@@ -17,25 +17,25 @@ public class Commune {
     @Id
     @Column(length = 5)
     @Pattern(regexp = REGEX_CODE_INSEE, message = "Le code INSEE doit contenir 5 chiffres (Le deuxième caractère peut être A ou B pour les communes de Corse)")
-    @NotBlank
+    @NotNull
     private String codeInsee;
 
     @Pattern(regexp = REGEX_NOM_COMMUNE, message = "Le nom de la commune ne peut contenir que des lettres, des tirets, des espaces et éventuellement le numéro d\'arrondissement")
-    @NotBlank
+    @NotNull
     private String nom;
 
     @Column(length = 5)
     @Pattern(regexp = REGEX_CODE_POSTAL, message = "Le code postal doit contenir 5 chiffres")
-    @NotBlank
+    @NotNull
     private String codePostal;
 
-    @Min(value = -28, message = "La latitude ne peut être inférieure à -28")
-    @Max(value = 67, message = "La latitude ne peut être supérieure à 67")
+    @Min(value = -90, message = "doit être supérieur ou égal à -90")
+    @Max(value = 90, message = "doit être inférieur ou égal à 90")
     @NotNull
     private Double latitude;
 
-    @Min(value = -179, message = "La longitude ne peut être inférieure à -179")
-    @Max(value = 168, message = "La longitude ne peut être supérieure à 168")
+    @Min(value = -180, message = "doit être supérieur ou égal à -180")
+    @Max(value = 180, message = "doit être inférieur ou égal à 180")
     @NotNull
     private Double longitude;
 

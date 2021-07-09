@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CommuneTest {
-/*
+
 
     @Test
     public void testCommuneOK(){
@@ -120,5 +120,5 @@ public class CommuneTest {
         //Then
         Assertions.assertThat(violations).hasSizeGreaterThan(0);
         Assertions.assertThat(violations.stream().map(ConstraintViolation::getMessage).toArray()).contains(error);
-    }*/
+    }
 }
